@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Natcore.Azure", "Natcore.Az
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Natcore.AspNet.Testing", "Natcore.AspNet.Testing\Natcore.AspNet.Testing.csproj", "{CDFC025B-8E67-4DB2-AF70-4109DBB2C2AE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Natcore.EntityFramework", "Natcore.EntityFramework\Natcore.EntityFramework.csproj", "{718532C0-865C-45FB-B183-D574C15F652E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{CDFC025B-8E67-4DB2-AF70-4109DBB2C2AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CDFC025B-8E67-4DB2-AF70-4109DBB2C2AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CDFC025B-8E67-4DB2-AF70-4109DBB2C2AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{718532C0-865C-45FB-B183-D574C15F652E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{718532C0-865C-45FB-B183-D574C15F652E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{718532C0-865C-45FB-B183-D574C15F652E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{718532C0-865C-45FB-B183-D574C15F652E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
