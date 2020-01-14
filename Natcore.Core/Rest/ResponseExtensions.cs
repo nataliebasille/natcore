@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.Json;
+using Newtonsoft.Json;
 
 namespace Natcore.Core.Rest
 {
@@ -26,7 +23,7 @@ namespace Natcore.Core.Rest
 			=> new RestResponse<T>()
 			{
 				StatusCode = response.StatusCode,
-				Body = response.Body == null ? default : JsonSerializer.Deserialize<T>(response.Body)
+				Body = response.Body == null ? default : JsonConvert.DeserializeObject<T>(response.Body)
 			};
 
 		/// <summary>

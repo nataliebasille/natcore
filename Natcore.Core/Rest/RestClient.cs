@@ -1,9 +1,9 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
-using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Natcore.Core.Rest
@@ -73,7 +73,7 @@ namespace Natcore.Core.Rest
 					? new StringContent(
 						isStringContent
 							? (string)request.Body
-							: JsonSerializer.Serialize(request.Body),
+							: JsonConvert.SerializeObject(request.Body),
 						System.Text.Encoding.UTF8,
 						(request.Headers?.ContainsKey("Content-Type") ?? false)
 							? request.Headers["Content-Type"]
