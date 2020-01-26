@@ -127,7 +127,7 @@ namespace Natcore.Core.Rest
 			var handler = new HttpClientHandler();
 			var client = new HttpClient(handler, true)
 			{
-				BaseAddress = new Uri(_baseUrl)
+				BaseAddress = !string.IsNullOrEmpty(_baseUrl) ? new Uri(_baseUrl) : null
 			};
 
 			if (AllowInsecureSSL)
