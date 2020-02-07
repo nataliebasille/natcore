@@ -77,7 +77,9 @@ namespace Natcore.AspNet.Binders
 		{
 			object convertedValue;
 
-			if (modelType.IsClass)
+			if (modelType == typeof(string))
+				convertedValue = value;
+			else if (modelType.IsClass)
 				convertedValue = JsonSerializer.Deserialize(value, modelType, _jsonOptions.Value.JsonSerializerOptions);
 			else
 				convertedValue = TypeDescriptor.GetConverter(modelType)?.ConvertFromString(value);
