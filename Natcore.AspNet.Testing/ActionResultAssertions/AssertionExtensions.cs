@@ -15,6 +15,12 @@ namespace Natcore.AspNet.Testing.ActionResultAssertions
 		public static ResultAssertion IsOK(this ResultAssertion assertion)
 			=> AssertStatusCondition(assertion, HttpStatusCode.OK);
 
+		public static ResultAssertion IsNoContent(this IActionResult result)
+			=> IsNoContent(new ResultAssertion(result));
+
+		public static ResultAssertion IsNoContent(this ResultAssertion assertion)
+			=> AssertStatusCondition(assertion, HttpStatusCode.NoContent);
+
 		public static ResultAssertion IsForbidden(this IActionResult result)
 			=> IsForbidden(new ResultAssertion(result));
 
