@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Net;
 
 namespace Natcore.Core.Rest
@@ -10,7 +11,7 @@ namespace Natcore.Core.Rest
 		/// <summary>
 		/// The HTTP protocol has a concept of a status code.  You should probably do a quick google search
 		/// if you don't know what the status code means.  A 2xx status code indicates the request was successful;
-		/// anything else, is up for grabs.
+		/// anything else is up for grabs.
 		/// </summary>
 		HttpStatusCode StatusCode { get; }
 
@@ -18,6 +19,8 @@ namespace Natcore.Core.Rest
 		/// What ever data the server wants to return.
 		/// </summary>
 		string Body { get; }
+
+		IDictionary<string, string[]> Headers { get; }
 	}
 
 	public interface IResponse<T>
@@ -25,5 +28,7 @@ namespace Natcore.Core.Rest
 		HttpStatusCode StatusCode { get; }
 
 		T Body { get; }
+
+		IDictionary<string, string[]> Headers { get; set; }
 	}
 }

@@ -94,7 +94,8 @@ namespace Natcore.Core.Rest
 			var res = new RestResponse
 			{
 				StatusCode = httpResponse.StatusCode,
-				Body = await httpResponse.Content.ReadAsStringAsync()
+				Body = await httpResponse.Content.ReadAsStringAsync(),
+				Headers = httpResponse.Headers.ToDictionary(x => x.Key, x => x.Value.ToArray())
 			};
 
 			Action<string> logger = Debugger.IsAttached
