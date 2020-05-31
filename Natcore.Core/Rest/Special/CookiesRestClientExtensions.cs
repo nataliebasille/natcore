@@ -1,4 +1,4 @@
-﻿namespace Natcore.Core.Rest.Special
+﻿namespace Natcore.Core.Rest
 {
     public static class CookiesRestClientExtensions
     {

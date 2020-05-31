@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Natcore.Core.Rest.Special
+namespace Natcore.Core.Rest
 {
     public class CookiesRestClient : IRestClient
     {
