@@ -2,7 +2,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Natcore.Core.Rest;
-using Natcore.Core.Rest.Special;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
