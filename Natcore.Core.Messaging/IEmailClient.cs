@@ -4,6 +4,6 @@ namespace Natcore.Core.Messaging
 {
     public interface IEmailClient
     {
-        Task Send(EmailMessage message);
+        Task SendAsync(EmailMessage message);
     }
 }
