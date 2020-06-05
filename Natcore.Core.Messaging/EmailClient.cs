@@ -19,7 +19,7 @@ namespace Natcore.Core.Messaging
             _options = options.Value;
         }
 
-        public Task Send(EmailMessage message)
+        public Task SendAsync(EmailMessage message)
         {
             var email = new MimeMessage();
 
