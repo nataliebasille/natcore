@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Natcore.Core.Messaging
 {
@@ -17,5 +18,7 @@ namespace Natcore.Core.Messaging
         public string Body { get; set; }
 
         public EmailFormat Format { get; set; }
+
+        public List<LinkedResource> Resources { get; } = new List<LinkedResource>();
     }
 }
