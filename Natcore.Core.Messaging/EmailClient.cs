@@ -36,10 +36,15 @@ namespace Natcore.Core.Messaging
                 email.Bcc.AddRange(message.BCC.Select(x => new MailboxAddress(x)));
 
             email.Subject = message.Subject;
-            email.Body = new TextPart(GetFormat(message.Format))
+
+            var builder = GetBuilder(message.Format, message.Body);
+
+            for(int i = 0; i < message.Resources.Count; i++)
             {
-                Text = message.Body
-            };
+                builder.LinkedResources.Add(message.Resources[i].Url).ContentId = message.Resources[i].ID;
+            }
+
+            email.Body = builder.ToMessageBody();
 
             return PerformSend();
 
@@ -54,18 +59,16 @@ namespace Natcore.Core.Messaging
             }
         }
 
-        private TextFormat GetFormat(EmailFormat format)
+        private BodyBuilder GetBuilder(EmailFormat format, string body)
         {
-            if (format == EmailFormat.Html)
-                return TextFormat.Html;
+            var bodyBuilder = new BodyBuilder();
 
             if (format == EmailFormat.Text)
-                return TextFormat.Text;
+                bodyBuilder.TextBody = body;
+            else if (format == EmailFormat.Html)
+                bodyBuilder.HtmlBody = body;
 
-            if (format == EmailFormat.RichText)
-                return TextFormat.RichText;
-
-            throw new InvalidOperationException($"Email format {format} is not supported");
+            return bodyBuilder;
         }
     }
 }

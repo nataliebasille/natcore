@@ -8,6 +8,5 @@ namespace Natcore.Core.Messaging
     {
         Text = 0,
         Html = 1,
-        RichText = 2
     }
 }
