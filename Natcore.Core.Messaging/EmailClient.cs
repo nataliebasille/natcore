@@ -35,7 +35,7 @@ namespace Natcore.Core.Messaging
             if (message.BCC != null)
                 email.Bcc.AddRange(message.BCC.Select(x => new MailboxAddress(x)));
 
-            email.Subject = message.Subject;
+            email.Subject = message.Subject ?? string.Empty;
 
             var builder = GetBuilder(message.Format, message.Body);
 
