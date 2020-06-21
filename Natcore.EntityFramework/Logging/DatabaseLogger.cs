@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Natcore.Core.Clock;
 using System;
 using System.Text.Json;
 
@@ -30,6 +31,7 @@ namespace Natcore.EntityFramework.Logging
 		{
 			if (ShouldLog(logLevel, eventId))
 			{
+				IClock clock = _serviceProvider.GetService<IClock>() ?? new InternalClock();
 				string message;
 				if (formatter != null)
 					message = formatter(state, exception);
@@ -49,7 +51,8 @@ namespace Natcore.EntityFramework.Logging
 					Message = message,
 					Level = logLevel.ToString(),
 					EventID = eventId == 0 ? null : (int?)eventId.Id,
-					Exception = exception?.ToString()
+					Exception = exception?.ToString(),
+					Timestamp = clock.CurrentUtcTime()
 				};
 
 				using (var scope = _serviceProvider.CreateScope())
