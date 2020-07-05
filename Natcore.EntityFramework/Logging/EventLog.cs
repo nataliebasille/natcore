@@ -33,9 +33,7 @@ namespace Natcore.EntityFramework.Logging
 		{
 			builder.HasKey(x => x.ID);
 			builder.Property(x => x.Timestamp)
-				.IsRequired(true)
-				.ValueGeneratedOnAdd()
-				.HasDefaultValueSql("SYSUTCDATETIME()");
+				.IsRequired(true);
 
 			builder.Property(x => x.Level).HasMaxLength(20).IsUnicode(false).IsRequired(true);
 			builder.Property(x => x.Message).IsRequired(true).IsUnicode(true);
