@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -79,7 +80,7 @@ namespace Natcore.AspNet.Binders
 
 			if (modelType == typeof(string))
 				convertedValue = value;
-			else if (modelType.IsClass)
+			else if (modelType.IsClass || typeof(IEnumerable<object>).IsAssignableFrom(modelType))
 				convertedValue = JsonSerializer.Deserialize(value, modelType, _jsonOptions.Value.JsonSerializerOptions);
 			else
 				convertedValue = TypeDescriptor.GetConverter(modelType)?.ConvertFromString(value);
