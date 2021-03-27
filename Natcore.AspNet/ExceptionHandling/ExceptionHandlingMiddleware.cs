@@ -1,38 +1,41 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Natcore.AspNet.ProblemDetails;
 using System;
-using System.Net;
 using System.Text.Json;
 
 namespace Natcore.AspNet.ExceptionHandling
 {
 	public static class ExceptionHandlingMiddleware
 	{
-		private static int id = 1000;
-
 		public static IApplicationBuilder UseExceptionLogger(this IApplicationBuilder app, ILoggerFactory loggerFactory)
 		{
 			return app.UseExceptionHandler(onError =>
 			{
 				onError.Run(async context =>
 				{
-					var logger = loggerFactory.CreateLogger("Natcore.AspNet.ExceptionHandling");
+					IErrorIdGenerator errorIdGenerator = app.ApplicationServices.GetService<IErrorIdGenerator>();
 
-					context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-					context.Response.ContentType = "application/json";
+					if (errorIdGenerator == null)
+						throw new InvalidOperationException($"To use exception logger, add a dependency for {typeof(IDetailIdGenerator)} or use AddExceptionLogger when registering your services");
+
+					var logger = loggerFactory.CreateLogger("Natcore.AspNet.ExceptionHandling");
 
 					var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
 					if (contextFeature != null)
 					{
-						int errorID = id++;
-						logger.LogError(errorID, contextFeature.Error, $"Unhandled exception.  Generated Event id is {errorID}");
+						string referenceId = errorIdGenerator.NextID();
+						logger.LogError(contextFeature.Error, $"Unhandled exception.  Reference ID: {referenceId}");
 
-						await context.Response.WriteAsync(JsonSerializer.Serialize(new ErrorModel()
+						await context.Response.WriteAsync(JsonSerializer.Serialize(new UnhandledExceptionProblemDetail(contextFeature.Error)
 						{
-							Code = errorID.ToString(),
-							Message = $"Oops, an unexpected error occurred{Environment.NewLine}Please contact the administrator"
+							ReferenceID = referenceId,
+							Title = "Unhandled Exception",
+							Instance = context.Request.Path,
+							Detail = $"Oops, an unexpected error occurred{Environment.NewLine}Please contact the administrator"
 						}, new JsonSerializerOptions
 						{
 							PropertyNamingPolicy = JsonNamingPolicy.CamelCase

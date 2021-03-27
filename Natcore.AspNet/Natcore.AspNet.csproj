@@ -11,8 +11,4 @@
   <ItemGroup>
     <ProjectReference Include="..\Natcore.Core\Natcore.Core.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ExceptionHandling\" />
-  </ItemGroup>
 </Project>
