@@ -21,6 +21,7 @@ namespace Natcore.Core.Messaging
 
         public Task SendAsync(EmailMessage message)
         {
+            //changing
             var email = new MimeMessage();
 
             ThrowIf.Argument.IsNullOrEmpty(message.To, "message.To");
@@ -51,7 +52,9 @@ namespace Natcore.Core.Messaging
             async Task PerformSend()
             {
                 await _transport.ConnectAsync(_options.Server, _options.Port, _options.UseSSL);
-                await _transport.AuthenticateAsync(_options.Username, _options.Password);
+
+                if (_options.Authentication != null)
+                    await _options.Authentication.AuthenticateAsync(_transport);
 
                 await _transport.SendAsync(email);
 
