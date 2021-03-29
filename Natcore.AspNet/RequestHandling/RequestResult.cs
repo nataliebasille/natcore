@@ -8,15 +8,15 @@ namespace Natcore.AspNet
 {
 	public static class RequestResult
 	{
-		public static IActionResult Forbidden(string reason = null) => HandleProblem(new StatusCodeProblemDetail(403, reason));
-		public static IActionResult NoContent() => new NoContentResult();
-		public static IActionResult NotFound(string reason = null) => HandleProblem(new StatusCodeProblemDetail(404, reason));
-		public static IActionResult BadRequest(object error) => HandleProblem(new BadRequestProblemDetail(error));
-		public static IActionResult BadRequest(ModelStateDictionary modelState) => HandleProblem(new BadRequestProblemDetail(modelState));
-		public static IActionResult Ok() => new OkResult();
-		public static IActionResult Ok(object payload) => new OkObjectResult(payload);
+		public static ActionResult Forbidden(string reason = null) => HandleProblem(new StatusCodeProblemDetail(403, reason));
+		public static ActionResult NoContent() => new NoContentResult();
+		public static ActionResult NotFound(string reason = null) => HandleProblem(new StatusCodeProblemDetail(404, reason));
+		public static ActionResult BadRequest(object error) => HandleProblem(new BadRequestProblemDetail(error));
+		public static ActionResult BadRequest(ModelStateDictionary modelState) => HandleProblem(new BadRequestProblemDetail(modelState));
+		public static ActionResult Ok() => new OkResult();
+		public static ActionResult<T> Ok<T>(T payload) => new OkObjectResult(payload);
 
-		private static IActionResult HandleProblem(ProblemDetail problem)
+		private static ActionResult HandleProblem(ProblemDetail problem)
 		{
 			return new ObjectResult(problem)
 			{

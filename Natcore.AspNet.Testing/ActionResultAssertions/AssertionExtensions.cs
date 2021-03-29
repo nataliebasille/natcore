@@ -9,35 +9,53 @@ namespace Natcore.AspNet.Testing.ActionResultAssertions
 {
 	public static class AssertionExtensions
 	{
-		public static ResultAssertion IsOK(this IActionResult result)
+		public static ResultAssertion IsOK(this ActionResult result)
 			=> IsOK(new ResultAssertion(result));
+
+		public static ResultAssertion IsOK<T>(this ActionResult<T> result)
+			=> IsOK(new ResultAssertion(result.Result));
 
 		public static ResultAssertion IsOK(this ResultAssertion assertion)
 			=> AssertStatusCondition(assertion, HttpStatusCode.OK);
 
-		public static ResultAssertion IsNoContent(this IActionResult result)
+		public static ResultAssertion IsNoContent(this ActionResult result)
 			=> IsNoContent(new ResultAssertion(result));
+
+		public static ResultAssertion IsNoContent<T>(this ActionResult<T> result)
+			=> IsNoContent(new ResultAssertion(result.Result));
 
 		public static ResultAssertion IsNoContent(this ResultAssertion assertion)
 			=> AssertStatusCondition(assertion, HttpStatusCode.NoContent);
 
-		public static ResultAssertion IsForbidden(this IActionResult result)
+		public static ResultAssertion IsForbidden(this ActionResult result)
 			=> IsForbidden(new ResultAssertion(result));
+
+		public static ResultAssertion IsForbidden<T>(this ActionResult<T> result)
+			=> IsForbidden(new ResultAssertion(result.Result));
 
 		public static ResultAssertion IsForbidden(this ResultAssertion assertion)
 			=> AssertStatusCondition(assertion, HttpStatusCode.Forbidden);
 
-		public static ResultAssertion IsBadRequest(this IActionResult result)
+		public static ResultAssertion IsBadRequest(this ActionResult result)
 			=> IsBadRequest(new ResultAssertion(result));
+
+		public static ResultAssertion IsBadRequest<T>(this ActionResult<T> result)
+			=> IsBadRequest(new ResultAssertion(result.Result));
 
 		public static ResultAssertion IsBadRequest(this ResultAssertion assertion)
 			=> AssertStatusCondition(assertion, HttpStatusCode.BadRequest);
 
-		public static ResultAssertion HasBody(this IActionResult result)
+		public static ResultAssertion HasBody(this ActionResult result)
 			=> HasBody(new ResultAssertion(result));
 
-		public static ResultAssertion HasBody(this IActionResult result, object body)
+		public static ResultAssertion HasBody(this ActionResult result, object body)
 			=> HasBody(new ResultAssertion(result), body);
+
+		public static ResultAssertion HasBody<T>(this ActionResult<T> result)
+			=> HasBody(new ResultAssertion(result.Result));
+
+		public static ResultAssertion HasBody<T>(this ActionResult<T> result, T body)
+			=> HasBody(new ResultAssertion(result.Result), body);
 
 		public static ResultAssertion HasBody(this ResultAssertion assertion)
 		{
