@@ -13,7 +13,7 @@ namespace Natcore.AspNet
         public static IServiceCollection AddRequestHandlers(this IServiceCollection services, params Assembly[] assemblies)
         {
             var handlerTypes = assemblies.SelectMany(x => x.GetTypes())
-              .Where(x => x.IsClass && x.GetInterfaces()
+              .Where(x => x.IsClass && !x.IsAbstract && x.GetInterfaces()
                 .Any(y => y.IsGenericType && (y.GetGenericTypeDefinition() == typeof(IRequestHandler<>) || y.GetGenericTypeDefinition() == typeof(IRequestHandler<,>)))
             )
             .Select(x => new
