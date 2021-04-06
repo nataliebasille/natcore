@@ -19,7 +19,7 @@ namespace Natcore.AspNet
 
 			dynamic handler = _serviceProvider.GetRequiredService(serviceType);
 
-            return handler.HandleAsync(request);
+            return handler.HandleAsync((dynamic)request);
         }
 
 		public async Task<ActionResult> DispatchAsync<TResult>(IRequest<TResult> request)
