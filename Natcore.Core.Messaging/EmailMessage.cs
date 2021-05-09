@@ -1,24 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Natcore.Core.Messaging
 {
-    public class EmailMessage
+    public abstract record EmailMessage(string From, string[] To)
     {
-        public string From { get; set; }
+        public string[] CC { get; init; }
 
-        public string[] To { get; set; }
+        public string[] BCC { get; init; }
 
-        public string[] CC { get; set; }
-
-        public string[] BCC { get; set; }
-
-        public string Subject { get; set; }
-
-        public string Body { get; set; }
-
-        public EmailFormat Format { get; set; }
+        public string Subject { get; init; }
 
         public List<LinkedResource> Resources { get; } = new List<LinkedResource>();
     }
+
+    public record TextEmailMessage(string From, string[] To, string Body) : EmailMessage(From, To)
+    { }
+
+    public record HtmlEmailMessage(string From, string[] To, HtmlPart Body) : EmailMessage(From, To) 
+    { }
 }

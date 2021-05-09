@@ -21,24 +21,28 @@ namespace Natcore.Core.Messaging
 
         public Task SendAsync(EmailMessage message)
         {
-            //changing
             var email = new MimeMessage();
 
             ThrowIf.Argument.IsNullOrEmpty(message.To, "message.To");
             ThrowIf.Argument.IsNull(message.From, "message.From");
 
-            email.To.AddRange(message.To.Select(x => new MailboxAddress(x)));
-            email.From.Add(new MailboxAddress(message.From));
+            email.To.AddRange(message.To.Select(x => MailboxAddress.Parse(x)));
+            email.From.Add(MailboxAddress.Parse(message.From));
 
             if (message.CC != null)
-                email.Cc.AddRange(message.CC.Select(x => new MailboxAddress(x)));
+                email.Cc.AddRange(message.CC.Select(x => MailboxAddress.Parse(x)));
 
             if (message.BCC != null)
-                email.Bcc.AddRange(message.BCC.Select(x => new MailboxAddress(x)));
+                email.Bcc.AddRange(message.BCC.Select(x => MailboxAddress.Parse(x)));
 
             email.Subject = message.Subject ?? string.Empty;
 
-            var builder = GetBuilder(message.Format, message.Body);
+            var builder = message switch
+            {
+                TextEmailMessage text => new BodyBuilder() { TextBody = text.Body },
+                HtmlEmailMessage html => html.Body.CreateBody(),
+                _ => new BodyBuilder()
+            };
 
             for(int i = 0; i < message.Resources.Count; i++)
             {
