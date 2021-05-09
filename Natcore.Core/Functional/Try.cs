@@ -1,33 +1,35 @@
 using System;
+using System.Threading.Tasks;
 
 namespace Natcore.Core.Functional
 {
-	public class Try<T>
+	public abstract record Try<T>
 	{
-		private readonly Result<T, Exception> _result;
-
-		internal Try(Result<T, Exception> result)
-		{
-			_result = result;
-		}
-
-		public TResult Match<TResult>(Func<T, TResult> success, Func<Exception, TResult> failure)
-			=> _result.Match(success, failure);
-
 		public Try<TResult> Map<TResult>(Func<T, TResult> action)
 			=> Bind(s => Try.Action(() => action(s)));
 
 		public Try<TResult> Bind<TResult>(Func<T, Try<TResult>> selector)
-			=> _result.Match(
-				success: s => Try
-					.Action(() => selector(s)).Match(
-						success: t => t,
-						failure: e => Try.AsFailure<TResult>(e)
-					),
-				failure: f => Try.AsFailure<TResult>(f)
-			);
+			=> this switch
+			{
+				TrySuccess<T> s => Try.Action(() => selector(s.Value)) switch
+				{
+					TrySuccess<Try<TResult>> innerSuccess => innerSuccess.Value,
+					TryFailure<Try<TResult>> innerFailure => Try.AsFailure<TResult>(innerFailure.Error),
+					_ => Try.AsFailure<TResult>(new Exception("Unhandled Try Match"))
+				},
+				TryFailure<T> f => Try.AsFailure<TResult>(f.Error),
+				_ => Try.AsFailure<TResult>(new Exception("Unhandled Try Match"))
+			};
+	}
 
-		public override string ToString() => _result.ToString();
+	public record TrySuccess<T>(T Value): Try<T>
+	{
+		public override string ToString() => $"[SUCCESS] ({Value})";
+	}
+
+	public record TryFailure<T>(Exception Error): Try<T>
+	{
+		public override string ToString() => $"[FAILURE] ({Error})";
 	}
 
 	public static class Try
@@ -44,8 +46,20 @@ namespace Natcore.Core.Functional
 			}
 		}
 
-		public static Try<T> AsSuccess<T>(T result) => new Try<T>(Result<T, Exception>.Success(result));
-		public static Try<T> AsFailure<T>(Exception ex) => new Try<T>(Result<T, Exception>.Failure(ex));
+		public static async Task<Try<T>> AsyncAction<T>(Func<Task<T>> action)
+		{
+			try
+			{
+				return AsSuccess(await action());
+			}
+			catch(Exception ex)
+			{
+				return AsFailure<T>(ex);
+			}
+		}
+
+		public static Try<T> AsSuccess<T>(T result) => new TrySuccess<T>(result);
+		public static Try<T> AsFailure<T>(Exception ex) => new TryFailure<T>(ex);
 	}
 
 	public static class TryLinqExtensions
