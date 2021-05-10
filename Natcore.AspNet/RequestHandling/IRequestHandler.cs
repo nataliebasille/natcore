@@ -3,8 +3,19 @@ using System.Threading.Tasks;
 
 namespace Natcore.AspNet
 {
-    public interface IRequestHandler<TQuery>
+	public interface IRequest { }
+
+	public interface IRequest<out TResult> { }
+
+    public interface IRequestHandler<in TRequest>
+		where TRequest : IRequest
     {
-        Task<IActionResult> HandleAsync(TQuery request);
+        Task<ActionResult> HandleAsync(TRequest request);
     }
+
+	public interface IRequestHandler<in TRequest, TResult>
+		where TRequest : IRequest<TResult>
+	{
+		Task<ActionResult<TResult>> HandleAsync(TRequest request);
+	}
 }

@@ -5,6 +5,8 @@ namespace Natcore.AspNet
 {
 	public interface IRequestDispatcher
 	{
-		Task<IActionResult> DispatchAsync<TParams>(TParams parameters);
+		Task<ActionResult> DispatchAsync(IRequest request);
+
+		Task<ActionResult> DispatchAsync<TResult>(IRequest<TResult> request);
 	}
 }
