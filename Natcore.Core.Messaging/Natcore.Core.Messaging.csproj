@@ -13,7 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\brew\natcore\Natcore.Core\Natcore.Core.csproj" />
     <ProjectReference Include="..\Natcore.Core\Natcore.Core.csproj" />
   </ItemGroup>
 

@@ -41,6 +41,14 @@ namespace Natcore.Core.Messaging
                     => string.Join("", parts.Select(p => CreateBodyString(p, resources))),
                 HtmlText { Text: string text }
                     => text,
+                HtmlClosedTag { Tag: string tag, Styles: var styles }
+                    => $"<{tag} style=\"{styles.CreateStyles()}\" />",
+                HtmlUnorderedList { Items: var items, Styles: var styles }
+                    => $"<ul style=\"{styles.CreateStyles()}\">{string.Join("", items.Select(i => CreateBodyString(i, resources)))}\"></ul>",
+                HtmlOrderedList { Items: var items, Styles: var styles }
+                    => $"<ol style=\"{styles.CreateStyles()}\">{string.Join("", items.Select(i => CreateBodyString(i, resources)))}</ol>",
+                HtmlListItem { Content: HtmlPart content, Styles: var styles }
+                    => $"<li style=\"{styles.CreateStyles()}\">{CreateBodyString(content, resources)}</li>",
                 _ => ""
             };
 

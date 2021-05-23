@@ -39,62 +39,8 @@ namespace Natcore.Core.Messaging
     public record HtmlTag(string Tag, HtmlPart Content) : HtmlPartWithStyles;
     public record HtmlText(string Text) : HtmlPart;
     public record HtmlNothing(): HtmlPart;
-
-    public static class Html
-    {
-        public static HtmlPart Button(string backgroundColor, string textColor, string label, string url)
-            => new HtmlLink(label, url)
-            {
-                Styles = new HtmlStyles
-                {
-                    BackgroundColor = backgroundColor,
-                    Color = textColor,
-                    Padding = "8px 22px",
-                    TextDecoration = "none",
-                    FontSize = "1.5rem",
-                    BorderRadius = "5px"
-                }
-            };
-
-        public static HtmlPart Divider()
-            => new HtmlTag(Tag: "div", Content: new HtmlNothing())
-            {
-                Styles = new HtmlStyles
-                { 
-                    BackgroundColor = "#bfc2c9", 
-                    Height = "1px", 
-                    Margin = "0 1rem" 
-                }
-            };
-
-        public static HtmlPart Heading1(string text, string textColor)
-            => new HtmlTag(Tag: "h1", Content: new HtmlText(text))
-            {
-                Styles = new HtmlStyles
-                {
-                    Color = textColor
-                }
-            };
-
-        public static HtmlPart Image(string id, string path, int size)
-            => Image(id, path, size, size);
-
-        public static HtmlPart Image(string id, string path, int width, int height)
-            => new HtmlImage(id, path, width, height);
-
-        public static HtmlPart Text(string text, HtmlStyles styles = null)
-            => new HtmlTag(Tag: "span", Content: new HtmlText(text))
-            {
-                Styles = styles ?? new HtmlStyles()
-            };
-
-        public static HtmlPart MutedText(string text, HtmlStyles styles = null)
-            => new HtmlTag(Tag: "span", Content: new HtmlText(text))
-            {
-                Styles = (styles ?? new HtmlStyles()) with { Color = "#6c757d" }
-            };
-
-        public static HtmlPart Copyright()
-            => new HtmlText(Text: $"Copyright © {DateTime.Now.Year}, BREW SOFTWARE, INC.");
-    }
+    public record HtmlClosedTag(string Tag): HtmlPartWithStyles;
+    public record HtmlUnorderedList(params HtmlListItem[] Items): HtmlPartWithStyles;
+    public record HtmlOrderedList(params HtmlListItem[] Items): HtmlPartWithStyles;
+    public record HtmlListItem(HtmlPart Content): HtmlPartWithStyles;
 }
