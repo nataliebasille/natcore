@@ -1,4 +1,4 @@
-﻿using MimeKit;
+using MimeKit;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -26,11 +26,11 @@ namespace Natcore.Core.Messaging
         private static string CreateBodyString(HtmlPart part, List<LinkedResource> resources)
             => part switch
             {
-                HtmlContainer { Rows: var rows, Styles: var styles }
+                HtmlTable { Rows: var rows, Styles: var styles }
                     => $"<table style=\"{styles.CreateStyles()}\">{string.Join("", rows.Select(r => CreateBodyString(part, resources)))}</table>",
-                HtmlRow { Items: var items, Styles: var styles }
+                HtmlTableRow { Items: var items, Styles: var styles }
                     => $"<tr style=\"{styles.CreateStyles()}\">{string.Join("", items.Select(i => CreateBodyString(i, resources)))}</tr>",
-                HtmlRowItem { Content: var content, Styles: var styles }
+                HtmlTableRowItem { Content: var content, Styles: var styles }
                     => $"<td style=\"{styles.CreateStyles()}\">{CreateBodyString(content, resources)}</td>",
                 HtmlLink { ActionUrl: var url, Label: var label, Styles: var styles }
                     => $"<a href=\"{url}\" style=\"text-decoration:none;{styles.CreateStyles()}\">{label}</a>",

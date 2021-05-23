@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Natcore.Core.Messaging
 {
@@ -23,10 +23,10 @@ namespace Natcore.Core.Messaging
         Bottom
     }
 
-    public record HtmlContainer(params HtmlRow[] Rows) : HtmlPartWithStyles;
-    public record HtmlRow(params HtmlRowItem[] Items) : HtmlPartWithStyles;
+    public record HtmlTable(params HtmlTableRow[] Rows) : HtmlPartWithStyles;
+    public record HtmlTableRow(params HtmlTableRowItem[] Items) : HtmlPartWithStyles;
     
-    public record HtmlRowItem(HtmlPart Content) : HtmlPartWithStyles
+    public record HtmlTableRowItem(HtmlPart Content) : HtmlPartWithStyles
     {
         public HorizontalAlignment HorizontalAlignment { get; init; } = HorizontalAlignment.Center;
 
