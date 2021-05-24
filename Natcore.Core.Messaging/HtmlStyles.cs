@@ -12,6 +12,14 @@ namespace Natcore.Core.Messaging
 
         public string Margin { get; init; }
 
+        public string MarginTop { get; init; }
+        
+        public string MarginBottom { get; init; }
+
+        public string MarginLeft { get; init; }
+
+        public string MarginRight { get; init; }
+
         public string Border { get; init; }
 
         public string BorderRadius { get; init; }
@@ -26,6 +34,8 @@ namespace Natcore.Core.Messaging
 
         public string FontWeight { get; init; }
 
+        public string TextAlign { get; init; }
+
         public string TextDecoration { get; init; }
 
         public string CreateStyles()
@@ -36,6 +46,10 @@ namespace Natcore.Core.Messaging
             Add(builder, "background-color", BackgroundColor);
             Add(builder, "padding", Padding);
             Add(builder, "margin", Margin);
+            Add(builder, "margin-top", MarginTop);
+            Add(builder, "margin-bottom", MarginBottom);
+            Add(builder, "margin-left", MarginLeft);
+            Add(builder, "margin-right", MarginRight);
             Add(builder, "border", Border);
             Add(builder, "border-radius", BorderRadius);
             Add(builder, "height", Height);
@@ -43,6 +57,7 @@ namespace Natcore.Core.Messaging
             Add(builder, "font-family", FontFamily);
             Add(builder, "font-size", FontSize);
             Add(builder, "font-weight", FontWeight);
+            Add(builder, "text-align", TextAlign);
             Add(builder, "text-decoration", TextDecoration);
 
             return builder.ToString();

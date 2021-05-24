@@ -23,7 +23,11 @@ namespace Natcore.Core.Messaging
         Bottom
     }
 
-    public record HtmlTable(params HtmlTableRow[] Rows) : HtmlPartWithStyles;
+    public record HtmlTable(params HtmlTableRow[] Rows) : HtmlPartWithStyles
+    {
+        public string CellSpacing { get; init; }
+    }
+
     public record HtmlTableRow(params HtmlTableRowItem[] Items) : HtmlPartWithStyles;
     
     public record HtmlTableRowItem(HtmlPart Content) : HtmlPartWithStyles
@@ -35,7 +39,7 @@ namespace Natcore.Core.Messaging
 
     public record HtmlImage(string ID, string ImagePath, int Width, int Height) : HtmlPart;
     public record HtmlLink(string Label, string ActionUrl): HtmlPartWithStyles;
-    public record HtmlPartCollection(HtmlPart[] Parts) : HtmlPart;
+    public record HtmlPartCollection(params HtmlPart[] Parts) : HtmlPart;
     public record HtmlTag(string Tag, HtmlPart Content) : HtmlPartWithStyles;
     public record HtmlText(string Text) : HtmlPart;
     public record HtmlNothing(): HtmlPart;

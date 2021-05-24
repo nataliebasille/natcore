@@ -26,8 +26,8 @@ namespace Natcore.Core.Messaging
         private static string CreateBodyString(HtmlPart part, List<LinkedResource> resources)
             => part switch
             {
-                HtmlTable { Rows: var rows, Styles: var styles }
-                    => $"<table style=\"{styles.CreateStyles()}\">{string.Join("", rows.Select(r => CreateBodyString(part, resources)))}</table>",
+                HtmlTable { Rows: var rows, Styles: var styles, CellSpacing: string cellspacing }
+                    => $"<table style=\"{styles.CreateStyles()}\" cellspacing=\"{cellspacing}\">{string.Join("", rows.Select(r => CreateBodyString(part, resources)))}</table>",
                 HtmlTableRow { Items: var items, Styles: var styles }
                     => $"<tr style=\"{styles.CreateStyles()}\">{string.Join("", items.Select(i => CreateBodyString(i, resources)))}</tr>",
                 HtmlTableRowItem { Content: var content, Styles: var styles }
