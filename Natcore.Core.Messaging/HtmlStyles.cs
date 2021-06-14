@@ -26,6 +26,8 @@ namespace Natcore.Core.Messaging
 
         public string Width { get; init; }
 
+        public string MaxWidth { get; set; }
+
         public string Height { get; init; }
 
         public string FontFamily { get; init; }
@@ -54,6 +56,7 @@ namespace Natcore.Core.Messaging
             Add(builder, "border-radius", BorderRadius);
             Add(builder, "height", Height);
             Add(builder, "width", Width);
+            Add(builder, "max-width", MaxWidth);
             Add(builder, "font-family", FontFamily);
             Add(builder, "font-size", FontSize);
             Add(builder, "font-weight", FontWeight);
