@@ -32,7 +32,7 @@ namespace Natcore.Core.Messaging
     
     public record HtmlTableRowItem(HtmlPart Content) : HtmlPartWithStyles
     {
-        public HorizontalAlignment HorizontalAlignment { get; init; } = HorizontalAlignment.Center;
+        public HorizontalAlignment HorizontalAlignment { get; init; } = HorizontalAlignment.Left;
 
         public VerticalAlignment VerticalAlignment { get; init; } = VerticalAlignment.Middle;
     }
