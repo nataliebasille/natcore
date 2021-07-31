@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Net.Http.Headers;
 using Natcore.AspNet.ProblemDetails;
+using System;
 
 namespace Natcore.AspNet
 {
@@ -15,7 +16,9 @@ namespace Natcore.AspNet
 		public static ActionResult BadRequest(ModelStateDictionary modelState) => HandleProblem(new BadRequestProblemDetail(modelState));
 		public static ActionResult Ok() => new OkResult();
 		public static ActionResult<T> Ok<T>(T payload) => new OkObjectResult(payload);
-
+		public static ActionResult InternalServerError(string message) => HandleProblem(new StatusCodeProblemDetail(500, message));
+		public static ActionResult InternalServerError(Exception ex) => HandleProblem(new StatusCodeProblemDetail(500, ex.ToString()));
+		
 		private static ActionResult HandleProblem(ProblemDetail problem)
 		{
 			return new ObjectResult(problem)

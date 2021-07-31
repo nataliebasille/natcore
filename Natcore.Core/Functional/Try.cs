@@ -20,6 +20,16 @@ namespace Natcore.Core.Functional
 				TryFailure<T> f => Try.AsFailure<TResult>(f.Error),
 				_ => Try.AsFailure<TResult>(new Exception("Unhandled Try Match"))
 			};
+
+		public TOut Match<TOut>(Func<T, TOut> success, Func<Exception, TOut> error)
+        {
+			return this switch
+			{
+				TrySuccess<T> { Value: T value } => success(value),
+				TryFailure<T> { Error: var exception } => error(exception),
+				_ => throw new InvalidOperationException("Unmapped try case")
+			};
+        }
 	}
 
 	public record TrySuccess<T>(T Value): Try<T>

@@ -2,18 +2,16 @@ using System;
 
 namespace Natcore.Core.Functional
 {
-	public class Maybe<T>
+	public struct Maybe<T>
 	{
-		public static Maybe<T> Some(T value) => new Maybe<T>(value);
-		public static Maybe<T> None => new Maybe<T>();
+		public static Maybe<T> Some(T value) => new(value, hasValue: true);
+		public static Maybe<T> None => new(value: default, hasValue: false);
 
-		private readonly bool _hasValue = false;
+		private readonly bool _hasValue;
 		private readonly T _value;
-		private Maybe() { } //None
-
-		private Maybe(T value) //Some
+		private Maybe(T value, bool hasValue)
 		{
-			_hasValue = true;
+			_hasValue = hasValue;
 			_value = value;
 		}
 
@@ -33,12 +31,12 @@ namespace Natcore.Core.Functional
 	public static class MaybeLinqExtensions
 	{
 		public static Maybe<TResult> Select<T, TResult>(this Maybe<T> source, Func<T, TResult> selector)
-			=> source == null ? Maybe<TResult>.None : source.Map(selector);
+			=> source.Map(selector);
 
 		public static Maybe<TResult> SelectMany<T, TResult>(this Maybe<T> source, Func<T, Maybe<TResult>> selector)
 			=> SelectMany(source, selector, (_, r) => r);
 
 		public static Maybe<TResult> SelectMany<T, TSelect, TResult>(this Maybe<T> source, Func<T, Maybe<TSelect>> selector, Func<T, TSelect, TResult> resultSelector)
-			=> source == null ? Maybe<TResult>.None : source.Bind(t => selector(t).Map(r => resultSelector(t, r)));
+			=> source.Bind(t => selector(t).Map(r => resultSelector(t, r)));
 	}
 }

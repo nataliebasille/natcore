@@ -29,7 +29,7 @@ namespace Natcore.EntityFramework.Logging
 
 		public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
 		{
-			if (ShouldLog(logLevel, eventId))
+			if (ShouldLog(logLevel, eventId, state))
 			{
 				IClock clock = _serviceProvider.GetService<IClock>() ?? new InternalClock();
 				string message;
@@ -84,9 +84,12 @@ namespace Natcore.EntityFramework.Logging
 			}
 		}
 
-		private bool ShouldLog(LogLevel logLevel, EventId eventId)
+		private bool ShouldLog(LogLevel logLevel, EventId eventId, object state)
 		{
-			if (eventId.Name?.Contains("Microsoft.EntityFrameworkCore") ?? false)
+			if (((eventId.Name?.Contains("Microsoft.EntityFrameworkCore") ?? false) && !(state?.ToString()?.Contains("SELECT") ?? false))
+				|| (state?.ToString()?.Contains("INSERT INTO \"EventLog\"") ?? false)
+				
+			)
 				return false;
 
 			return IsEnabled(logLevel);
