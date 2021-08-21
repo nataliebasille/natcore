@@ -29,6 +29,13 @@ namespace Natcore.Core.Messaging
         public static HtmlPart B(HtmlStyles styles, HtmlPart content) 
             => new HtmlTag("b", content) { Styles = styles };
 
+        public static HtmlPart U(string text) => U(new(), text);
+        public static HtmlPart U(HtmlStyles styles, string text)
+            => U(styles, Text(text));
+        public static HtmlPart U(HtmlPart content) => U(new(), content);
+        public static HtmlPart U(HtmlStyles styles, HtmlPart content)
+            => new HtmlTag("u", content) { Styles = styles };
+
         public static HtmlPart Br => new HtmlClosedTag("br");
         public static HtmlPart Hr => new HtmlClosedTag("hr");
 
